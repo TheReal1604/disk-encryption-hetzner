@@ -55,8 +55,9 @@ PART lvm vg0 all
 - reboot again to the rescue system via the hetzner webinterface
 
 ### Debian 9.4
-- `vi /etc/dropbear-initramfs/authorized_keys`
+- run `vi /etc/dropbear-initramfs/authorized_keys`
 - Paste your pub key `.ssh/dropbear.pub` in there
+- run `update-initramfs -u`
 - reboot again to the rescue system via the hetzner webinterface
 
 ### Rescue image the second
