@@ -15,7 +15,7 @@ This guide *could* work at any other provider with a rescue system.
 ### First steps in rescue image
 
 - Boot to the rescue system via hetzners server management page
-- install a minimal Ubuntu 16.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
+- install a minimal Ubuntu 16.04 LTS or Debian 9.4 with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
 - I choosed the following logical volumes on my system to keep it simple:
 
 ```
@@ -39,7 +39,7 @@ PART lvm vg0 all
 - after you adjusted all parameters in the install config file, press F10 to install the ubuntu minimal system
 - reboot and ssh into your fresh installed ubuntu
 
-### First steps on your fresh ubuntu installation
+### First steps on your fresh ubuntu or Debian installation
 
 - connect via ssh-key you choosed before for the rescue image (attention to the .ssh/known_hosts file..)
 - install busybox and dropbear
@@ -48,8 +48,14 @@ PART lvm vg0 all
 - Create a new ssh key for unlocking your encrypted volumes when it is rebooting
 - `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
 - Create the needed folders for dropbear keys
+- **If you are on Debian, proceed to section "Debian 9.4"**
 - `mkdir -p /etc/initramfs-tools/root/.ssh/`
 - `vi /etc/initramfs-tools/root/.ssh/authorized_keys`
+- Paste your pub key `.ssh/dropbear.pub` in there
+- reboot again to the rescue system via the hetzner webinterface
+
+### Debian 9.4
+- `vi /etc/dropbear-initramfs/authorized_keys`
 - Paste your pub key `.ssh/dropbear.pub` in there
 - reboot again to the rescue system via the hetzner webinterface
 
