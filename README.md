@@ -24,14 +24,14 @@ lv-log (30GB) ext4
 lv-swap (10GB) swap
 lv-root (all) -> means remaining space ext4
 ```
-To achive this setup you have to add the following lines
+To achieve this setup you have to add the following lines
 ```
 LV vg0 home /home ext4 60G
 LV vg0 swap swap swap 4G
 LV vg0 log /log ext4 30g
 LV vg0 root / ext4 all
 ```
-And change the partition section acordingly
+And change the partition section accordingly
 ```
 PART /boot ext3 512M
 PART lvm vg0 all
