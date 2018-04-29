@@ -90,8 +90,8 @@ After this, we encrypt our raid 1 now.
 We have now to edit your vg0 backup:
 - `blkid /dev/mapper/cryptroot`
    Results in:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ"`
-- `cp vg0.freespace /etc/lvm/backup/vg`
-Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file according to our installation
+- `cp vg0.freespace /etc/lvm/backup/vg0`
+Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file (physical_volumes) according to our installation
 - `vi /etc/lvm/backup/vg0`
 - Restore the vgconfig: `vgcfgrestore vg0`
 - `vgchange -a y vg0`
@@ -148,7 +148,7 @@ After a few seconds the dropbear ssh server is coming up on your system, connect
 - `ssh -i .ssh/dropbear root@<yourserverip>`
 - a busybox shell should come up
 - unlock your lvm drive with:
-- `echo -ne "<yourstrongpassphrase>" > /lib/cryptsetup/passfifo`
+- `cryptroot-unlock`
 
 ## Sources:
 Special thanks to the people who wrote already this guides:
