@@ -97,7 +97,7 @@ Things to know:
  - I corrupted my partition table by referring to devices by uuid the first time round. LUKS will change those ids.
 
 
-this "activates the luks device" ?!
+open the luks device
 ```
 cryptsetup luksOpen /dev/sda3 cryptroot
 ```
@@ -189,4 +189,4 @@ Special thanks to the people who wrote already this guides:
 - PRs are very welcome or open an issue if something not works for you as described
 
 ## Comments
-- Tested this guide on 25.10.2017 on my own hetzner system, its working pretty good :-)
+- It was tested by [@leviwheatcroft](https://github.com/leviwheatcroft)
