@@ -10,5 +10,5 @@ This guide *could* work at any other provider with a rescue system.
 
 [Ubuntu Guide](ubuntu.md)
 
-[Debian Guide](debian.md) # Contributed by [@leviwheatcroft](https://github.com/leviwheatcroft)
+[Debian Guide](debian-hardware-raid-controller.md) # Contributed by [@leviwheatcroft](https://github.com/leviwheatcroft)
 
