@@ -1,8 +1,8 @@
-## overview
+## Overview
 
 
 Debian 9.4
-No LVM
+LVM on LUKS
 Hardware Raid Controller
 
 
@@ -63,12 +63,15 @@ If you're using mdadm, you should wait until initial md replication is complete.
 
 ### Boot 3: Rescue Again
 
+Backup all the data temporarily and disable the auto-loaded LVM otherwise the next step with parted will fail at recreating sda2.
+
 ```
 mkdir /oldroot
 mount /dev/mapper/vg0-root /mnt
 mount /dev/mapper/vg0-srv /mnt/srv
 rsync -a /mnt/ /oldroot/
 umount /mnt/srv /mnt
+vgchange -a n vg0
 ```
 
 Now delete the lvm partition and create a new one (with no fs), open parted with `parted /dev/sda` then in the parted cli:
@@ -99,7 +102,7 @@ Things to know:
 
 open the luks device
 ```
-cryptsetup luksOpen /dev/sda3 cryptroot
+cryptsetup luksOpen /dev/sda2 cryptroot
 ```
 
 
