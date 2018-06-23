@@ -1,15 +1,24 @@
 ## disk-encryption-hetzner
 
-This should be a clean step-by-step guide how to setup a hetzner root server from the server auctions at hetzners "serverbörse" to get a fully encrypted software raid1 with lvm on top.
+These are clean step-by-step guides on how to setup a hetzner root server from their server auctions called "serverbörse" to get fully-encrypted and remotely unlockable servers with or without different RAID-Systems and with or without LVM.
 
-The goal of this guide is to have a server system that has encrypted drives and is remotely unlockable.
-
-This guide *could* work at any other provider with a rescue system.
+These guides *could* work at any other provider with a rescue system or with manually installed servers with little modifications.
 
 ## Distribution specific guides:
 
-[Ubuntu Guide](ubuntu.md)
+##### Ubuntu
 
-[Debian Guide](debian-hardware-raid-controller.md) # Contributed by [@leviwheatcroft](https://github.com/leviwheatcroft)
+* [Ubuntu Guide (SWRAID-1 LVM LUKS)](ubuntu/ubuntu_swraid_lvm_luks.md)
 
-[Debian Guide](debian_no_hwraid.md) # Contributed by [@sirtoobii](https://github.com/sirtoobii)
+##### Debian
+
+* [Debian Guide (HWRAID-1 LVM LUKS)](debian/debian_hwraid_lvm_luks.md)
+Contributed by [@leviwheatcroft](https://github.com/leviwheatcroft)
+* [Debian Guide (SWRAID-1 LVM LUKS)](debian/debian_swraid_lvm_luks.md)
+Contributed by [@sirtoobii](https://github.com/sirtoobii)
+* [Debian Guide (2 HWRAID-1 LVM LUKS)](debian/debian_two_hwraid_lvm_luks.md)
+Contributed by [@martinseener](https://github.com/martinseener) ([Longer Original Blogpost](https://www.sysorchestra.com/2018/06/14/hetzner-root-server-with-dual-hardware-raid-1-and-lvm-on-luks-on-debian-9/))
+
+##### RedHat / CentOS / Fedora
+
+Please contribute!
