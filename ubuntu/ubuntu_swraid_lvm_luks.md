@@ -46,6 +46,12 @@ lv-root (all) -> means remaining space ext4
 *This steps should be done after the initial md replication*
 (get the progress with `cat /proc/mdstat`)
 
+If you can not find anything in `/dev/mapper/*` you will have to activate the volumes first.
+`lvm vgscan -v`
+
+Activate all volume groups:
+`lvm vgchange -a y`
+
 We now rsync our installation into the new encrypted drives 
 
 - `mkdir /oldroot/`
