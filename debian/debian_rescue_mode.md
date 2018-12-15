@@ -4,7 +4,7 @@ This guide helps you in the following cases:
 - Chmod into your system to fix boot problems or reset root password (or fix whatever is messed up)
 
 ### Before we start
-In my case, I've restarted the server approximately one year after I’ve set up the full disk encryption. Sadly, the I couldn't reach my server afterwards. Eventually, it turned out that the problem was not complicated, it was just the server which didn't listen on the ipv6 interface. To prevent you from such things a short list to check first:
+In my case, I've restarted the server approximately one year after I’ve set up the full disk encryption. Sadly, I couldn't reach my server afterwards. Eventually, it turned out that the problem was not complicated, it was just the server which didn't listen on the ipv6 interface. To prevent you from such things a short list to check first:
 - Is the ssh port maybe default?
 - Is your DNS-record also an AAAA-record and the server does not listen on ipv6?
 
