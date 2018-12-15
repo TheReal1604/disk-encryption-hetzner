@@ -1,8 +1,8 @@
-## overview
+## Overview
 
 
 Debian 9.4
-No LVM
+LVM on LUKS
 Hardware Raid Controller
 
 
@@ -50,18 +50,18 @@ then you can `shutdown -r now`
 - ssh into new system
 - I always get perl locale errors so `dpkg-reconfigure locales`, choose & generate your (UTF-8) locale
 - install all the things `apt update && apt install busybox dropbear dropbear-initramfs`
-- I get an error like this in the last few lines:
-
-```
-update-initramfs: Generating /boot/initrd.img-4.9.0-6-amd64
-dropbear: WARNING: Invalid authorized_keys file, remote unlocking of cryptroot via SSH won't work!
-```
-
-Don't worry about it for now, we will fix it when we configure initramfs
+- Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
+- Create a new ssh key for unlocking your encrypted volumes when it is rebooting. This can also be done on another machine.
+- `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
+- `vi /etc/dropbear-initramfs/authorized_keys`
+- Paste your pub key `.ssh/dropbear.pub` in there
+- reboot again to the rescue system via the hetzner webinterface
 
 If you're using mdadm, you should wait until initial md replication is complete. check `cat /proc/mdstat`
 
 ### Boot 3: Rescue Again
+
+Backup all the data temporarily and disable the auto-loaded LVM otherwise the next step with parted will fail at recreating sda2.
 
 ```
 mkdir /oldroot
@@ -69,6 +69,7 @@ mount /dev/mapper/vg0-root /mnt
 mount /dev/mapper/vg0-srv /mnt/srv
 rsync -a /mnt/ /oldroot/
 umount /mnt/srv /mnt
+vgchange -a n vg0
 ```
 
 Now delete the lvm partition and create a new one (with no fs), open parted with `parted /dev/sda` then in the parted cli:
@@ -93,15 +94,14 @@ cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha256 --iter-time 600
 Things to know:
 
  - it's an uppercase YES
- - you can check luks headers with `cryptsetup luksDump /dev/sda3`
+ - you can check luks headers with `cryptsetup luksDump /dev/sda2`
  - I corrupted my partition table by referring to devices by uuid the first time round. LUKS will change those ids.
 
 
 open the luks device
 ```
-cryptsetup luksOpen /dev/sda3 cryptroot
+cryptsetup luksOpen /dev/sda2 cryptroot
 ```
-
 
 create the physical volume, the volume group, and the partitions we want, create file systems
 ```
@@ -109,7 +109,7 @@ pvcreate /dev/mapper/cryptroot
 vgcreate vg0 /dev/mapper/cryptroot
 lvcreate -L 8G -n swap vg0
 lvcreate -L 100G -n root vg0
-lvcreate -L 5.3T -n srv vg0
+lvcreate -l 100%FREE -n srv vg0
 mkfs.ext4 /dev/vg0/srv
 mkfs.ext4 /dev/vg0/root
 mkswap /dev/vg0/swap
@@ -119,6 +119,7 @@ copy data back in (leave partitions mounted for now)
 
 ```
 mount /dev/vg0/root /mnt
+mkdir /mnt/srv
 mount /dev/vg0/srv /mnt/srv
 rsync -a /oldroot/ /mnt/
 ```
