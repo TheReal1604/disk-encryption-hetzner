@@ -14,7 +14,7 @@ These guides *could* work at any other provider with a rescue system or with man
 
 * [Debian Guide (HWRAID-1 LVM LUKS)](debian/debian_hwraid_lvm_luks.md)
 Contributed by [@leviwheatcroft](https://github.com/leviwheatcroft)
-* [Debian Guide (SWRAID-1 LVM LUKS)](debian/debian_swraid_lvm_luks.md)
+* [Debian Guide (SWRAID-1 LVM LUKS)](debian/debian_swraid_lvm_luks.md) [Debian Rescure mode](debian/debian_rescue_mode.md)
 Contributed by [@sirtoobii](https://github.com/sirtoobii)
 * [Debian Guide (2 HWRAID-1 LVM LUKS)](debian/debian_two_hwraid_lvm_luks.md)
 Contributed by [@martinseener](https://github.com/martinseener) ([Longer Original Blogpost](https://www.sysorchestra.com/2018/06/14/hetzner-root-server-with-dual-hardware-raid-1-and-lvm-on-luks-on-debian-9/))
