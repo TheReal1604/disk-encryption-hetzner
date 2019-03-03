@@ -9,13 +9,13 @@ This guide *could* work at any other provider with a rescue system.
 ### Hardware setup
 "Dedicated Root Server SB36"
 - Intel Xeon E3-1246V3
-- 2x HDD SATA 2,0 TB Enterprise 
+- 2x HDD SATA 2,0 TB Enterprise (or any nvme drives with swraid)
 - 4x RAM 8192 MB DDR3
 
 ### First steps in rescue image
 
 - Boot to the rescue system via hetzners server management page
-- install a minimal Ubuntu 16.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
+- install a minimal Ubuntu 16.04 LTS or 18.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
 - I choosed the following logical volumes on my system to keep it simple:
 
 ```
@@ -112,10 +112,10 @@ To let the system know there is a new crypto device we need to edit the cryptab(
 - copy the following line in there: `cryptroot /dev/md1 none luks`
 
 Regenerate the initramfs:
-- `update-initramfs -u`
+- `update-initramfs -u` (if you see a warning about bad authorized_keys, then also do `cp /etc/initramfs-tools/root/.ssh/authorized_keys /etc/dropbear-initramfs/`, then again `update-initramfs -u`)
 - `update-grub`
-- `grub-install /dev/sda`
-- `grub-install /dev/sdb`
+- `grub-install /dev/sda` (or `grub-install /dev/nvme0n1` if you use nvme)
+- `grub-install /dev/sdb` (or `grub-install /dev/nvme1n1` if you use nvme)
 
 To be sure the network interface is coming up:
 
@@ -150,3 +150,4 @@ Special thanks to the people who wrote already this guides:
 
 ## Comments
 - Tested this guide on 25.10.2017 on my own hetzner system, its working pretty good :-)
+- tested again by a contributor on 03.03.2019
