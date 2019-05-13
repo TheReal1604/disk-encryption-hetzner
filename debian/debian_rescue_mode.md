@@ -25,7 +25,7 @@ ls /dev/mapper/*
 #mount root and boot partitions (this depends on your setup -> see command before)
 mount /dev/mapper/vg0-root /mnt
 mount /dev/md0 /mnt/boot/
-#chmod into your filesystem
-chmod /mnt
+#chroot into your filesystem
+chroot /mnt
 ```
 ### Start hacking and good luck (don't forget to unmount when you are done)
