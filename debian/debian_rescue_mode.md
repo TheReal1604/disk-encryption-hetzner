@@ -9,7 +9,7 @@ In my case, I've restarted the server approximately one year after I’ve set up
 - Is your DNS-record also an AAAA-record and the server does not listen on ipv6?
 
 ### Boot into rescue mode and mount partitions
-```
+```bash
 #enable dm-crypt kernel module
 modprobe dm-crypt 
 #list all disks (just to get an overview)
