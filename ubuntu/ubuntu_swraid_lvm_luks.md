@@ -79,6 +79,7 @@ We have now to edit your vg0 backup:
 - `blkid /dev/mapper/cryptroot`
    Results in:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ"`
 - `cp vg0.freespace /etc/lvm/backup/vg0`
+
 Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file according to our installation
 - `vi /etc/lvm/backup/vg0`
 - Restore the vgconfig: `vgcfgrestore vg0`
@@ -138,11 +139,36 @@ After a few seconds the dropbear ssh server is coming up on your system, connect
 - unlock your lvm drive with:
 - `echo -ne "<yourstrongpassphrase>" > /lib/cryptsetup/passfifo`
 
+## Optional steps
+You can further secure dropbear by changing its port and disabling unnecessary features:
+- `vi /etc/dropbear-initramfs/config`
+- add the line `DROPBEAR_OPTIONS="-p 2222 -s -j -k -I 30"`
+- `update-initramfs -u`
+
+This makes dropbear to listen to port 2222 instead of 22, `-s` disables password logins, `-j -k` disables port forwarding, `-I 30` sets the idle timeout to 30 seconds.
+
+Additionally you can alter the authorized_keys file to show the cryptsetup password prompt directly instead of the busybox prompt (and disable further unnecessary SSH features):
+- `vi /etc/initramfs-tools/root/.ssh/authorized_keys`
+- alter your public key like this: `no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="/bin/cryptroot-unlock" ssh-rsa ...`
+- If you have copied the authorized_keys file to avoid the warning on update-initramfs do this again: `cp /etc/initramfs-tools/root/.ssh/authorized_keys /etc/dropbear-initramfs/authorized_keys`
+- `update-initramfs -u`
+
+Reboot you server and unlock your system using
+- `ssh -p 2222 -i .ssh/dropbear root@<yourserverip>`
+
+Now, the whole SSH session looks really neat (and your password is not shown while entering):
+```
+Please unlock disk cryptroot (/dev/md1):
+cryptsetup: cryptroot set up successfully
+Connection to <yourserverip> closed.
+```
+
 ## Sources:
 Special thanks to the people who wrote already this guides:
 
 - http://notes.sudo.is/RemoteDiskEncryption
 - https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system
+- https://hamy.io/post/0009/how-to-install-luks-encrypted-ubuntu-18.04.x-server-and-enable-remote-unlocking/
 
 ## Contribution
 
@@ -150,4 +176,4 @@ Special thanks to the people who wrote already this guides:
 
 ## Comments
 - Tested this guide on 25.10.2017 on my own hetzner system, its working pretty good :-)
-- tested again by a contributor on 03.03.2019
+- tested again by a contributor on 03.03.2019 and 11.03.2019
