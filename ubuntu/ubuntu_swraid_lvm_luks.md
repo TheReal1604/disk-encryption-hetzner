@@ -16,13 +16,16 @@ This guide *could* work at any other provider with a rescue system.
 
 - Boot to the rescue system via hetzners server management page
 - install a minimal Ubuntu 16.04 LTS or 18.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
-- I choosed the following logical volumes on my system to keep it simple:
+- I chose the following logical volumes on my system to keep it simple:
 
 ```
-lv-home (60GB) ext4
-lv-log (30GB) ext4
-lv-swap (10GB) swap
-lv-root (all) -> means remaining space ext4
+PART /boot ext3 512M
+PART lvm vg0 all
+
+LV vg0 home /home ext4 60G
+LV vg0 log /log ext4 30G
+LV vg0 swap swap swap 10G
+LV vg0 root / ext4 1000G
 ```
 
 - after you adjusted all parameters in the install config file, press F10 to install the ubuntu minimal system
@@ -80,7 +83,7 @@ We have now to edit your vg0 backup:
    Results in:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ"`
 - `cp vg0.freespace /etc/lvm/backup/vg0`
 
-Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file according to our installation
+Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) properties nested at `vg0 > physical_volumes > pv0` in the file according to our installation
 - `vi /etc/lvm/backup/vg0`
 - Restore the vgconfig: `vgcfgrestore vg0`
 - `vgchange -a y vg0`
