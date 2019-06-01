@@ -114,7 +114,7 @@ Reboot to new system and install updates and necessary tools for headless boot-t
 
 ```
 apt update && apt-get -y upgrade
-apt -y install busybox dropbear dropbear-initramfs
+apt -y install busybox dropbear dropbear-initramfs lvm2
 ```
 
 Ignore the following error as we will configure (fix) that later.

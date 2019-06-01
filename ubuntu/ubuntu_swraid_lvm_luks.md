@@ -32,7 +32,7 @@ lv-root (all) -> means remaining space ext4
 
 - connect via ssh-key you choosed before for the rescue image (attention to the .ssh/known_hosts file..)
 - install busybox and dropbear
-- `apt update && apt install busybox dropbear`
+- `apt update && apt install busybox dropbear lvm2`
 - Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
 - Create a new ssh key for unlocking your encrypted volumes when it is rebooting
 - `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
