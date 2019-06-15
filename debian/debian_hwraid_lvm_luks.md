@@ -49,7 +49,7 @@ then you can `shutdown -r now`
 
 - ssh into new system
 - I always get perl locale errors so `dpkg-reconfigure locales`, choose & generate your (UTF-8) locale
-- install all the things `apt update && apt install busybox dropbear dropbear-initramfs`
+- install all the things `apt update && apt install busybox dropbear dropbear-initramfs lvm2`
 - Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
 - Create a new ssh key for unlocking your encrypted volumes when it is rebooting. This can also be done on another machine.
 - `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
