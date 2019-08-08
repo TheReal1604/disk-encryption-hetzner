@@ -63,7 +63,7 @@ We now rsync our installation into the new encrypted drives
 - `mount /dev/mapper/vg0-root /mnt/`
 - `mount /dev/mapper/vg0-home /mnt/home`
 - `mount /dev/mapper/vg0-log /mnt/var/log`
-- `rsync -a /mnt/ /oldroot/` (this could take a while)
+- `rsync -a /mnt/ /oldroot/` (this can take a while)
 - `umount /mnt/home/`
 - `umount /mnt/var/log/`
 - `umount /mnt/`
@@ -81,13 +81,22 @@ After this, we encrypt our raid 1 now.
 - `pvcreate /dev/mapper/cryptroot`
 
 We have now to edit your vg0 backup:
-- `blkid /dev/mapper/cryptroot`
-   Results in:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ"`
-- `cp vg0.freespace /etc/lvm/backup/vg0`
-Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file (physical_volumes) according to our installation
-- `vi /etc/lvm/backup/vg0`
-- Restore the vgconfig: `vgcfgrestore vg0`
-- `vgchange -a y vg0`
+- Get the UUID with: `blkid /dev/mapper/cryptroot`
+   Results in something like:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ" [...]`
+- Copy the current vg-config: `cp vg0.freespace /etc/lvm/backup/vg0`
+- Edit the configfile accordingly:
+```
+vg0 {
+   ...
+   physical_volumnes {
+      id = "UUID aquired with the blkid command"
+      device = "/dev/mapper/cryptroot"
+      ...
+   }
+}
+```
+- Restore the vgconfig using: `vgcfgrestore vg0`
+- Apply changes: `vgchange -a y vg0`
 
 Ok, the filesystem is missing, lets create it:
 
