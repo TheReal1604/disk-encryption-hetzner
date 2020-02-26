@@ -84,8 +84,7 @@ We have now to edit your vg0 backup:
 - `blkid /dev/mapper/cryptroot`
    Results in:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ"`
 - `cp vg0.freespace /etc/lvm/backup/vg0`
-Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file (physical_volumes) according to our installation
-- `vi /etc/lvm/backup/vg0`
+-  Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) property in the file (physical_volumes) according to our installation: `vi /etc/lvm/backup/vg0`
 - Restore the vgconfig: `vgcfgrestore vg0`
 - `vgchange -a y vg0`
 
