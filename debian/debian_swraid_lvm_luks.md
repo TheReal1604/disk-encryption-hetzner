@@ -115,6 +115,8 @@ To let the system know there is a new crypto device we need to edit the cryptab(
 - `vi /etc/crypttab`
 - copy the following line in there: `cryptroot /dev/md1 none luks`
 
+NOTE: LVM may need a config change before below `grub` commands work. Try [these instructions](https://bbs.archlinux.org/viewtopic.php?pid=1513816#p1513816).
+
 Regenerate the initramfs:
 - `update-initramfs -u`
 - `update-grub`
