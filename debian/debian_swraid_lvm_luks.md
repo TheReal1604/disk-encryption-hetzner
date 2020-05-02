@@ -81,6 +81,7 @@ After this, we encrypt our raid 1 now.
 - `pvcreate /dev/mapper/cryptroot`
 
 We have now to edit your vg0 backup:
+
 - Get the UUID with: `blkid /dev/mapper/cryptroot`
    Results in something like:  `/dev/mapper/cryptroot: UUID="HEZqC9-zqfG-HTFC-PK1b-Qd2I-YxVa-QJt7xQ" [...]`
 - Copy the current vg-config: `cp vg0.freespace /etc/lvm/backup/vg0`
@@ -97,6 +98,7 @@ vg0 {
 ```
 - Restore the vgconfig using: `vgcfgrestore vg0`
 - Apply changes: `vgchange -a y vg0`
+
 
 Ok, the filesystem is missing, lets create it:
 
@@ -124,6 +126,8 @@ Lets mount some special filesystems for chroot usage:
 To let the system know there is a new crypto device we need to edit the cryptab(/etc/crypttab):
 - `vi /etc/crypttab`
 - copy the following line in there: `cryptroot /dev/md1 none luks`
+
+NOTE: LVM may need a config change before below `grub` commands work. Try [these instructions](https://bbs.archlinux.org/viewtopic.php?pid=1513816#p1513816).
 
 Regenerate the initramfs:
 - `update-initramfs -u`
