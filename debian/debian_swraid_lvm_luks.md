@@ -132,8 +132,8 @@ NOTE: LVM may need a config change before below `grub` commands work. Try [these
 Regenerate the initramfs:
 - `update-initramfs -u`
 - `update-grub`
-- `grub-install /dev/sda`
-- `grub-install /dev/sdb`
+- `grub-install /dev/sda` or `grub-install /dev/nvme0`
+- `grub-install /dev/sdb` or `grub-install /dev/nvme1`
 
 To be sure the network interface is coming up:
 
