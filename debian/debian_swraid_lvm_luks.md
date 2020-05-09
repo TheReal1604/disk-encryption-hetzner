@@ -121,6 +121,7 @@ Lets mount some special filesystems for chroot usage:
 - `mount --bind /dev /mnt/dev`
 - `mount --bind /sys /mnt/sys`
 - `mount --bind /proc /mnt/proc`
+- `mount --bind /run /mnt/run`
 - `chroot /mnt`
 
 To let the system know there is a new crypto device we need to edit the cryptab(/etc/crypttab):
