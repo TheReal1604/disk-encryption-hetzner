@@ -89,7 +89,7 @@ We have now to edit your vg0 backup:
 ```
 vg0 {
    ...
-   physical_volumnes {
+   physical_volumes {
       id = "UUID aquired with the blkid command"
       device = "/dev/mapper/cryptroot"
       ...
