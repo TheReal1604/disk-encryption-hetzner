@@ -117,10 +117,12 @@ Now we mount and copy our installation back on the new lvs:
 
 ### Some changes to your existing linux installation
 Lets mount some special filesystems for chroot usage:
+- `mkdir -p /mnt/run/udev`
 - `mount /dev/md0 /mnt/boot`
 - `mount --bind /dev /mnt/dev`
 - `mount --bind /sys /mnt/sys`
 - `mount --bind /proc /mnt/proc`
+- `mount --bind /run/udev /mnt/run/udev`
 - `chroot /mnt`
 
 To let the system know there is a new crypto device we need to edit the cryptab(/etc/crypttab):
@@ -144,7 +146,7 @@ To be sure the network interface is coming up:
 Time for our first reboot.. fingers crossed!
 
 - `exit`
-- `umount /mnt/boot /mnt/home /mnt/var/log /mnt/proc /mnt/sys /mnt/dev`
+- `umount /mnt/boot /mnt/home /mnt/var/log /mnt/proc /mnt/sys /mnt/dev /mnt/run/udev`
 - `umount /mnt`
 - `sync`
 - `reboot`
