@@ -49,6 +49,10 @@ LV vg0 root / ext4 1000G
 *This steps should be done after the initial md replication*
 (get the progress with `cat /proc/mdstat`)
 
+You can speed up the replication on SSD servers by typing:
+
+`echo 5000000 > /proc/sys/dev/raid/speed_limit_max`
+
 If you can not find anything in `/dev/mapper/*` you will have to activate the volumes first.
 `lvm vgscan -v`
 
