@@ -126,12 +126,6 @@ Regenerate the initramfs:
 - `grub-install /dev/sda` (or `grub-install /dev/nvme0n1` if you use nvme)
 - `grub-install /dev/sdb` (or `grub-install /dev/nvme1n1` if you use nvme)
 
-To be sure the network interface is coming up:
-
-- `vi /etc/rc.local`
-- Insert the line: `/sbin/ifdown --force eth0`
-- Insert the line: `/sbin/ifup --force eth0`
-
 Time for our first reboot.. fingers crossed!
 
 - `exit`
