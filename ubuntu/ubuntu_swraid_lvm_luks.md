@@ -37,12 +37,12 @@ LV vg0 root / ext4 1000G
 - install busybox and dropbear
 - `apt update && apt install busybox dropbear lvm2`
 - Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
-- Create a new ssh key for unlocking your encrypted volumes when it is rebooting
+- Create a new ssh key for unlocking your encrypted volumes when it is rebooting LOCALLY
 - `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
 - Create the needed folders for dropbear keys
 - `mkdir -p /etc/initramfs-tools/root/.ssh/`
 - `vi /etc/initramfs-tools/root/.ssh/authorized_keys`
-- Paste your pub key `.ssh/dropbear.pub` in there
+- Paste your local pub key `.ssh/dropbear.pub` in there
 - reboot again to the rescue system via the hetzner webinterface
 
 ### Rescue image the second
