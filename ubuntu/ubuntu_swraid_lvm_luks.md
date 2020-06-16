@@ -34,7 +34,7 @@ LV vg0 root / ext4 1000G
 ### First steps on your fresh ubuntu installation
 
 - connect via ssh-key you choosed before for the rescue image (attention to the .ssh/known_hosts file..)
-- install busybox and dropbear
+- install required packages
 - `apt update && apt install busybox dropbear lvm2 vim cryptsetup-initramfs dropbear-initramfs`
 - Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
 - Create a new ssh key for unlocking your encrypted volumes when it is rebooting LOCALLY
