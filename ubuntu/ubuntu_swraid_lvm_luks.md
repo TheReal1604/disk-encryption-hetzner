@@ -15,7 +15,7 @@ This guide *could* work at any other provider with a rescue system.
 ### First steps in rescue image
 
 - Boot to the rescue system via hetzners server management page
-- install a minimal 18.04 LTS or 20.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
+- install a minimal Ubuntu 18.04 LTS or 20.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
 - I chose the following logical volumes on my system to keep it simple:
 
 ```
