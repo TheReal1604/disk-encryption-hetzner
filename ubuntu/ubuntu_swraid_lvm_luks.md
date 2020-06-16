@@ -36,7 +36,6 @@ LV vg0 root / ext4 1000G
 - connect via ssh-key you choosed before for the rescue image (attention to the .ssh/known_hosts file..)
 - install required packages
 - `apt update && apt install busybox dropbear lvm2 vim cryptsetup-initramfs dropbear-initramfs`
-- Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
 - Create a new ssh key for unlocking your encrypted volumes when it is rebooting LOCALLY
 - `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
 - Create the needed folders for dropbear keys
