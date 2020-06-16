@@ -90,6 +90,7 @@ We have now to edit your vg0 backup:
 Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) properties nested at `vg0 > physical_volumes > pv0` in the file according to our installation
 - `vi /etc/lvm/backup/vg0`
 - Restore the vgconfig: `vgcfgrestore vg0`
+- Resize PV to the new size: `pvresize /dev/mapper/cryptroot`
 - `vgchange -a y vg0`
 
 Ok, the filesystem is missing, lets create it:
