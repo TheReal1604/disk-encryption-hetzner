@@ -15,7 +15,7 @@ This guide *could* work at any other provider with a rescue system.
 ### First steps in rescue image
 
 - Boot to the rescue system via hetzners server management page
-- install a minimal Ubuntu 16.04 LTS or 18.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
+- install a minimal Ubuntu 18.04 LTS or 20.04 LTS with hetzners "installimage" skript (https://wiki.hetzner.de/index.php/Installimage)
 - I chose the following logical volumes on my system to keep it simple:
 
 ```
@@ -34,20 +34,23 @@ LV vg0 root / ext4 1000G
 ### First steps on your fresh ubuntu installation
 
 - connect via ssh-key you choosed before for the rescue image (attention to the .ssh/known_hosts file..)
-- install busybox and dropbear
-- `apt update && apt install busybox dropbear lvm2`
-- Edit your `/etc/initramfs-tools/initramfs.conf` and set `BUSYBOX=y`
-- Create a new ssh key for unlocking your encrypted volumes when it is rebooting
+- install required packages
+- `apt update && apt install busybox dropbear lvm2 vim cryptsetup-initramfs dropbear-initramfs`
+- Create a new ssh key for unlocking your encrypted volumes when it is rebooting LOCALLY
 - `ssh-keygen -t rsa -b 4096 -f .ssh/dropbear`
 - Create the needed folders for dropbear keys
 - `mkdir -p /etc/initramfs-tools/root/.ssh/`
-- `vi /etc/initramfs-tools/root/.ssh/authorized_keys`
-- Paste your pub key `.ssh/dropbear.pub` in there
+- `vi /etc/dropbear-initramfs/authorized_keys`
+- Paste your local pub key `.ssh/dropbear.pub` in there
 - reboot again to the rescue system via the hetzner webinterface
 
 ### Rescue image the second
 *This steps should be done after the initial md replication*
 (get the progress with `cat /proc/mdstat`)
+
+You can speed up the replication on SSD servers by typing:
+
+`echo 5000000 > /proc/sys/dev/raid/speed_limit_max`
 
 If you can not find anything in `/dev/mapper/*` you will have to activate the volumes first.
 `lvm vgscan -v`
@@ -86,6 +89,7 @@ We have now to edit your vg0 backup:
 Now edit the `id` (UUID from above) and `device` (/dev/mapper/cryptroot) properties nested at `vg0 > physical_volumes > pv0` in the file according to our installation
 - `vi /etc/lvm/backup/vg0`
 - Restore the vgconfig: `vgcfgrestore vg0`
+- Resize PV to the new size: `pvresize /dev/mapper/cryptroot`
 - `vgchange -a y vg0`
 
 Ok, the filesystem is missing, lets create it:
@@ -116,16 +120,10 @@ To let the system know there is a new crypto device we need to edit the cryptab(
 - copy the following line in there: `cryptroot /dev/md1 none luks`
 
 Regenerate the initramfs:
-- `update-initramfs -u` (if you see a warning about bad authorized_keys, then also do `cp /etc/initramfs-tools/root/.ssh/authorized_keys /etc/dropbear-initramfs/`, then again `update-initramfs -u`)
+- `update-initramfs -u`
 - `update-grub`
 - `grub-install /dev/sda` (or `grub-install /dev/nvme0n1` if you use nvme)
 - `grub-install /dev/sdb` (or `grub-install /dev/nvme1n1` if you use nvme)
-
-To be sure the network interface is coming up:
-
-- `vi /etc/rc.local`
-- Insert the line: `/sbin/ifdown --force eth0`
-- Insert the line: `/sbin/ifup --force eth0`
 
 Time for our first reboot.. fingers crossed!
 
@@ -151,9 +149,8 @@ You can further secure dropbear by changing its port and disabling unnecessary f
 This makes dropbear to listen to port 2222 instead of 22, `-s` disables password logins, `-j -k` disables port forwarding, `-I 30` sets the idle timeout to 30 seconds.
 
 Additionally you can alter the authorized_keys file to show the cryptsetup password prompt directly instead of the busybox prompt (and disable further unnecessary SSH features):
-- `vi /etc/initramfs-tools/root/.ssh/authorized_keys`
+- `vi /etc/dropbear-initramfs/authorized_keys`
 - alter your public key like this: `no-port-forwarding,no-agent-forwarding,no-X11-forwarding,command="/bin/cryptroot-unlock" ssh-rsa ...`
-- If you have copied the authorized_keys file to avoid the warning on update-initramfs do this again: `cp /etc/initramfs-tools/root/.ssh/authorized_keys /etc/dropbear-initramfs/authorized_keys`
 - `update-initramfs -u`
 
 Reboot you server and unlock your system using
