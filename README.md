@@ -1,3 +1,11 @@
+## This repo is not maintained anymore
+
+Take a look into this issue: 
+
+* [Using hetzner installimage to encrypt disks](https://github.com/TheReal1604/disk-encryption-hetzner/issues/35)
+
+Its recommended to use the installimage method from hetzner.
+
 ## disk-encryption-hetzner
 
 These are clean step-by-step guides on how to setup a hetzner root server from their server auctions called "serverbörse" to get fully-encrypted and remotely unlockable servers with or without different RAID-Systems and with or without LVM.
